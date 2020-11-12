@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {View, FlatList,} from 'react-native';
+import {View, FlatList} from 'react-native';
 import axios from 'axios';
 import {ProductImage} from './ProductImage';
-import{styles} from './styles';
+import {styles} from './styles';
+import SwipperItems from './SwipperItems';
 
 function Home() {
     const [data, setData] = useState([]);
     const [arrSpecies, setArrSpecies] = useState([]);
     useEffect(() => {
-        axios.get('https://orderfood2007.000webhostapp.com/foodapp.php')
+        axios.get('https://orderfood20071996.000webhostapp.com/foodapp.php')
             .then(res => {
                 const data = res.data.map(food => {
                     return {...food, fullSize: false};
@@ -16,13 +17,13 @@ function Home() {
                 setData(data);
             })
             .catch(e => console.log(e));
-        axios.get('https://orderfood2007.000webhostapp.com/species.php')
+        axios.get('https://orderfood20071996.000webhostapp.com/foodapp.php')
             .then(res => {
                 setArrSpecies(res.data);
             })
             .catch(e => console.log(e));
     });
-     const  renderItemFood = (item) => {
+    const renderItemFood = (item) => {
         return (
             <View key={item.id.toString()} style={{alignItems: 'center'}}>
                 <View style={styles.listFood}>
@@ -36,20 +37,26 @@ function Home() {
             </View>
         );
     };
-   function renderListFood() {
+
+    function renderListFood() {
         return (
             <View style={{backgroundColor: 'whitesmoke'}}>
                 <FlatList
                     keyExtractor={item => item.id}
                     data={data}
-                    renderItem={({item}) =>renderItemFood(item)}/>
+                    renderItem={({item}) => renderItemFood(item)}/>
             </View>
         );
     }
 
     return (
         <View style={{flex: 1}}>
-            {renderListFood()}
+            <View>
+                <SwipperItems/>
+            </View>
+            <View>
+                {renderListFood()}
+            </View>
         </View>
     );
 }
